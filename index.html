@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AVRAM_agency — Автоматизація для бізнесу</title>
+<meta name="description" content="Автоматизуємо рутину — ти фокусуєшся на бізнесі. Telegram боти, Make.com, AI-агенти для малого і середнього бізнесу.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:       #080808;
+    --bg2:      #111111;
+    --bg3:      #1a1a1a;
+    --border:   #222222;
+    --accent:   #a8ff3e;
+    --accent2:  #7dd61f;
+    --text:     #f0f0f0;
+    --muted:    #888888;
+    --white:    #ffffff;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ─────────────────────────────────────────────── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 20px 5%;
+    background: rgba(8,8,8,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .logo {
+    font-size: 1.2rem; font-weight: 800; letter-spacing: 1px;
+    color: var(--white); text-transform: uppercase;
+  }
+  .logo span { color: var(--accent); }
+  nav ul {
+    display: flex; gap: 32px; list-style: none;
+  }
+  nav ul a {
+    color: var(--muted); text-decoration: none; font-size: .9rem; font-weight: 500;
+    transition: color .2s;
+  }
+  nav ul a:hover { color: var(--white); }
+  .nav-cta {
+    background: var(--accent); color: #000 !important;
+    padding: 10px 22px; border-radius: 8px; font-weight: 700 !important;
+    font-size: .85rem !important; transition: opacity .2s !important;
+  }
+  .nav-cta:hover { opacity: .85 !important; }
+
+  @media (max-width: 768px) {
+    nav ul { display: none; }
+  }
+
+  /* ── SECTIONS ────────────────────────────────────────── */
+  section { padding: 100px 5%; }
+  .container { max-width: 1100px; margin: 0 auto; }
+
+  .label {
+    display: inline-block;
+    font-size: .75rem; font-weight: 700; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--accent);
+    margin-bottom: 16px;
+  }
+  h2 {
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 800; line-height: 1.15; letter-spacing: -1px;
+    color: var(--white);
+    margin-bottom: 16px;
+  }
+  .subtitle {
+    font-size: 1.1rem; color: var(--muted); max-width: 560px;
+    margin-bottom: 56px;
+  }
+
+  /* ── HERO ────────────────────────────────────────────── */
+  #hero {
+    min-height: 100vh;
+    display: flex; align-items: center;
+    padding-top: 120px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-glow {
+    position: absolute; top: -200px; right: -200px;
+    width: 600px; height: 600px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(168,255,62,.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-content { position: relative; z-index: 1; }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--bg3); border: 1px solid var(--border);
+    border-radius: 100px; padding: 8px 16px;
+    font-size: .8rem; color: var(--muted);
+    margin-bottom: 32px;
+  }
+  .hero-badge-dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--accent);
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: .3; }
+  }
+  h1 {
+    font-size: clamp(2.8rem, 8vw, 5.5rem);
+    font-weight: 900; line-height: 1.05; letter-spacing: -2px;
+    color: var(--white);
+    margin-bottom: 24px;
+  }
+  h1 .accent { color: var(--accent); }
+  .hero-sub {
+    font-size: clamp(1rem, 2.5vw, 1.25rem);
+    color: var(--muted); max-width: 560px;
+    margin-bottom: 48px; line-height: 1.7;
+  }
+  .btn-group { display: flex; gap: 16px; flex-wrap: wrap; }
+  .btn-primary {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--accent); color: #000;
+    padding: 16px 32px; border-radius: 10px;
+    font-weight: 800; font-size: 1rem;
+    text-decoration: none; transition: transform .2s, opacity .2s;
+  }
+  .btn-primary:hover { transform: translateY(-2px); opacity: .9; }
+  .btn-secondary {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: transparent; color: var(--text);
+    border: 1px solid var(--border);
+    padding: 16px 32px; border-radius: 10px;
+    font-weight: 600; font-size: 1rem;
+    text-decoration: none; transition: border-color .2s, transform .2s;
+  }
+  .btn-secondary:hover { border-color: var(--accent); transform: translateY(-2px); }
+
+  .hero-stats {
+    display: flex; gap: 48px; margin-top: 72px; flex-wrap: wrap;
+  }
+  .stat-val {
+    font-size: 2.5rem; font-weight: 900; color: var(--white);
+    letter-spacing: -1px;
+  }
+  .stat-val span { color: var(--accent); }
+  .stat-label { font-size: .85rem; color: var(--muted); margin-top: 4px; }
+
+  /* ── LOGOS (довіра) ──────────────────────────────────── */
+  #trust {
+    padding: 48px 5%;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+  .trust-inner {
+    display: flex; align-items: center; gap: 48px;
+    max-width: 1100px; margin: 0 auto; flex-wrap: wrap;
+  }
+  .trust-label { font-size: .8rem; color: var(--muted); white-space: nowrap; }
+  .trust-tools {
+    display: flex; gap: 32px; flex-wrap: wrap; align-items: center;
+  }
+  .trust-tool {
+    font-size: .9rem; font-weight: 600; color: #555;
+    letter-spacing: .5px;
+    transition: color .2s;
+  }
+  .trust-tool:hover { color: var(--muted); }
+
+  /* ── SERVICES ────────────────────────────────────────── */
+  #services { background: var(--bg); }
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+  }
+  .service-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 32px;
+    transition: border-color .25s, transform .25s;
+    position: relative;
+    overflow: hidden;
+  }
+  .service-card::before {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(168,255,62,.04) 0%, transparent 60%);
+    opacity: 0; transition: opacity .3s;
+  }
+  .service-card:hover { border-color: #333; transform: translateY(-4px); }
+  .service-card:hover::before { opacity: 1; }
+  .service-card.featured {
+    border-color: var(--accent);
+    background: linear-gradient(135deg, rgba(168,255,62,.06), var(--bg2));
+  }
+  .service-icon {
+    font-size: 2rem; margin-bottom: 20px;
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 56px; height: 56px;
+    background: var(--bg3); border-radius: 12px;
+    border: 1px solid var(--border);
+  }
+  .service-tag {
+    font-size: .7rem; font-weight: 700; letter-spacing: 1.5px;
+    text-transform: uppercase; color: var(--accent);
+    margin-bottom: 8px;
+  }
+  .service-card h3 {
+    font-size: 1.2rem; font-weight: 700; color: var(--white);
+    margin-bottom: 12px;
+  }
+  .service-card p {
+    font-size: .9rem; color: var(--muted); line-height: 1.6;
+    margin-bottom: 20px;
+  }
+  .service-deliverables {
+    list-style: none; margin-bottom: 24px;
+  }
+  .service-deliverables li {
+    font-size: .85rem; color: #666;
+    padding: 4px 0;
+    display: flex; align-items: flex-start; gap: 8px;
+  }
+  .service-deliverables li::before {
+    content: '→'; color: var(--accent); font-weight: 700;
+    flex-shrink: 0; margin-top: 1px;
+  }
+  .service-price {
+    display: flex; align-items: baseline; gap: 8px;
+  }
+  .price-main {
+    font-size: 1.5rem; font-weight: 800; color: var(--white);
+  }
+  .price-alt { font-size: .85rem; color: var(--muted); }
+  .price-timeline {
+    font-size: .8rem; color: var(--muted);
+    margin-left: auto;
+  }
+
+  /* ── HOW IT WORKS ────────────────────────────────────── */
+  #process { background: var(--bg2); }
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 40px;
+    position: relative;
+  }
+  .step { text-align: center; }
+  .step-num {
+    width: 56px; height: 56px; border-radius: 50%;
+    border: 2px solid var(--accent);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.2rem; font-weight: 900; color: var(--accent);
+    margin: 0 auto 20px;
+  }
+  .step h3 {
+    font-size: 1.1rem; font-weight: 700; color: var(--white);
+    margin-bottom: 10px;
+  }
+  .step p { font-size: .9rem; color: var(--muted); }
+
+  /* ── RESULTS ─────────────────────────────────────────── */
+  #results { background: var(--bg); }
+  .results-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 24px;
+  }
+  .result-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 32px;
+    transition: border-color .2s;
+  }
+  .result-card:hover { border-color: #333; }
+  .result-badge {
+    display: inline-block;
+    background: rgba(168,255,62,.12);
+    color: var(--accent);
+    border: 1px solid rgba(168,255,62,.25);
+    border-radius: 100px;
+    padding: 4px 12px;
+    font-size: .75rem; font-weight: 700;
+    margin-bottom: 20px;
+  }
+  .result-card h3 {
+    font-size: 1rem; font-weight: 700; color: var(--white);
+    margin-bottom: 16px;
+  }
+  .before-after {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+    margin-bottom: 20px;
+  }
+  .ba-block { background: var(--bg3); border-radius: 10px; padding: 14px; }
+  .ba-label {
+    font-size: .7rem; font-weight: 700; letter-spacing: 1px;
+    text-transform: uppercase; margin-bottom: 6px;
+  }
+  .ba-label.before { color: #ff5555; }
+  .ba-label.after  { color: var(--accent); }
+  .ba-text { font-size: .85rem; color: var(--muted); }
+  .result-metric {
+    font-size: 1.8rem; font-weight: 900; color: var(--accent);
+  }
+  .result-metric-label { font-size: .8rem; color: var(--muted); }
+
+  /* ── PRICING ─────────────────────────────────────────── */
+  #pricing { background: var(--bg2); }
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+  }
+  .pricing-card {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 36px;
+    transition: transform .25s, border-color .25s;
+  }
+  .pricing-card:hover { transform: translateY(-4px); }
+  .pricing-card.popular {
+    border-color: var(--accent);
+    background: linear-gradient(135deg, rgba(168,255,62,.07), var(--bg));
+    position: relative;
+  }
+  .popular-badge {
+    position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
+    background: var(--accent); color: #000;
+    padding: 4px 16px; border-radius: 100px;
+    font-size: .75rem; font-weight: 800;
+    white-space: nowrap;
+  }
+  .pricing-name {
+    font-size: .8rem; font-weight: 700; letter-spacing: 1.5px;
+    text-transform: uppercase; color: var(--muted);
+    margin-bottom: 8px;
+  }
+  .pricing-price {
+    font-size: 2.8rem; font-weight: 900; color: var(--white);
+    letter-spacing: -1px; margin-bottom: 4px;
+  }
+  .pricing-price .currency { font-size: 1.4rem; color: var(--muted); }
+  .pricing-usd { font-size: .9rem; color: var(--muted); margin-bottom: 8px; }
+  .pricing-timeline {
+    font-size: .8rem; color: var(--accent);
+    margin-bottom: 24px;
+  }
+  .pricing-divider {
+    height: 1px; background: var(--border);
+    margin-bottom: 24px;
+  }
+  .pricing-features {
+    list-style: none; margin-bottom: 32px;
+  }
+  .pricing-features li {
+    font-size: .9rem; color: var(--muted);
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: flex-start; gap: 10px;
+  }
+  .pricing-features li:last-child { border-bottom: none; }
+  .pricing-features li::before {
+    content: '✓'; color: var(--accent); font-weight: 700;
+    flex-shrink: 0;
+  }
+  .btn-card {
+    display: block; text-align: center;
+    padding: 14px; border-radius: 10px;
+    font-weight: 700; font-size: .95rem;
+    text-decoration: none; transition: opacity .2s, transform .2s;
+  }
+  .btn-card-accent {
+    background: var(--accent); color: #000;
+  }
+  .btn-card-outline {
+    background: transparent; color: var(--text);
+    border: 1px solid var(--border);
+  }
+  .btn-card:hover { opacity: .85; transform: translateY(-1px); }
+
+  /* ── FAQ ─────────────────────────────────────────────── */
+  #faq { background: var(--bg); }
+  .faq-list { max-width: 720px; }
+  .faq-item {
+    border-bottom: 1px solid var(--border);
+    padding: 24px 0;
+  }
+  .faq-q {
+    font-size: 1rem; font-weight: 600; color: var(--white);
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 16px;
+  }
+  .faq-q::after {
+    content: '+';
+    font-size: 1.4rem; color: var(--accent); flex-shrink: 0;
+    transition: transform .2s;
+  }
+  .faq-item.open .faq-q::after { transform: rotate(45deg); }
+  .faq-a {
+    font-size: .95rem; color: var(--muted);
+    line-height: 1.7; margin-top: 0;
+    max-height: 0; overflow: hidden;
+    transition: max-height .3s ease, margin-top .3s;
+  }
+  .faq-item.open .faq-a { max-height: 300px; margin-top: 16px; }
+
+  /* ── CTA ─────────────────────────────────────────────── */
+  #cta {
+    background: var(--bg2);
+    text-align: center;
+  }
+  .cta-box {
+    max-width: 640px; margin: 0 auto;
+  }
+  .cta-box h2 { margin-bottom: 16px; }
+  .cta-box p { color: var(--muted); margin-bottom: 40px; font-size: 1.05rem; }
+  .cta-contacts {
+    display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;
+    margin-top: 32px;
+  }
+  .contact-chip {
+    display: flex; align-items: center; gap: 8px;
+    background: var(--bg3); border: 1px solid var(--border);
+    border-radius: 100px; padding: 10px 20px;
+    color: var(--muted); font-size: .9rem;
+    text-decoration: none; transition: border-color .2s, color .2s;
+  }
+  .contact-chip:hover { border-color: var(--accent); color: var(--text); }
+
+  /* ── FOOTER ──────────────────────────────────────────── */
+  footer {
+    padding: 40px 5%;
+    border-top: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 16px;
+  }
+  footer .logo { font-size: 1rem; }
+  footer p { font-size: .8rem; color: #444; }
+
+  /* ── SCROLL ANIMATION ────────────────────────────────── */
+  .fade-in {
+    opacity: 0; transform: translateY(24px);
+    transition: opacity .6s ease, transform .6s ease;
+  }
+  .fade-in.visible { opacity: 1; transform: none; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">AVRAM<span>_</span>agency</div>
+  <ul>
+    <li><a href="#services">Послуги</a></li>
+    <li><a href="#results">Кейси</a></li>
+    <li><a href="#pricing">Ціни</a></li>
+    <li><a href="#faq">FAQ</a></li>
+    <li><a href="https://t.me/avramenko_a_m" target="_blank" class="nav-cta">Написати</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-glow"></div>
+  <div class="container hero-content">
+    <div class="hero-badge">
+      <span class="hero-badge-dot"></span>
+      Доступно для нових проєктів
+    </div>
+    <h1>
+      Автоматизую<br>
+      твій бізнес.<br>
+      <span class="accent">Ти — зростаєш.</span>
+    </h1>
+    <p class="hero-sub">
+      Telegram боти, Make.com, AI-агенти і Python-скрипти —
+      позбавляю від рутини і даю час на головне.
+      10–40 годин зекономлено щомісяця.
+    </p>
+    <div class="btn-group">
+      <a href="https://t.me/avramenko_a_m" target="_blank" class="btn-primary">
+        Обговорити проєкт →
+      </a>
+      <a href="#services" class="btn-secondary">Переглянути послуги</a>
+    </div>
+    <div class="hero-stats">
+      <div>
+        <div class="stat-val">10–40<span>год</span></div>
+        <div class="stat-label">зекономлено щомісяця</div>
+      </div>
+      <div>
+        <div class="stat-val">5–21<span>дн</span></div>
+        <div class="stat-label">від ідеї до запуску</div>
+      </div>
+      <div>
+        <div class="stat-val">від<span> $200</span></div>
+        <div class="stat-label">вартість проєкту</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRUST -->
+<section id="trust">
+  <div class="trust-inner">
+    <span class="trust-label">Стек інструментів</span>
+    <div class="trust-tools">
+      <span class="trust-tool">Python</span>
+      <span class="trust-tool">Make.com</span>
+      <span class="trust-tool">Telegram API</span>
+      <span class="trust-tool">Claude AI</span>
+      <span class="trust-tool">Google Sheets</span>
+      <span class="trust-tool">Notion</span>
+      <span class="trust-tool">FastAPI</span>
+      <span class="trust-tool">LiqPay</span>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="container">
+    <span class="label fade-in">Послуги</span>
+    <h2 class="fade-in">Що я роблю</h2>
+    <p class="subtitle fade-in">Чотири напрямки — від простого Telegram-бота до повноцінного AI-агента.</p>
+
+    <div class="services-grid">
+      <div class="service-card fade-in">
+        <div class="service-icon">🤖</div>
+        <div class="service-tag">Telegram боти</div>
+        <h3>Telegram бот для бізнесу</h3>
+        <p>Запис клієнтів, FAQ, прийом замовлень, оплата — все без менеджера.</p>
+        <ul class="service-deliverables">
+          <li>Прийом замовлень / запис на послугу</li>
+          <li>Автовідповіді на часті питання</li>
+          <li>Сповіщення адміну при новому запиті</li>
+        </ul>
+        <div class="service-price">
+          <span class="price-main">₴8,000</span>
+          <span class="price-alt">/ $200</span>
+          <span class="price-timeline">від 5 днів</span>
+        </div>
+      </div>
+
+      <div class="service-card featured fade-in">
+        <div class="service-icon">⚙️</div>
+        <div class="service-tag">Автоматизації</div>
+        <h3>Автоматизація бізнес-процесу</h3>
+        <p>Звіти, розсилки, перенос даних — один процес під ключ без участі людини.</p>
+        <ul class="service-deliverables">
+          <li>Аналіз і план автоматизації</li>
+          <li>Make.com або Python-скрипт</li>
+          <li>Тестування та інструкція</li>
+        </ul>
+        <div class="service-price">
+          <span class="price-main">₴12,000</span>
+          <span class="price-alt">/ $300</span>
+          <span class="price-timeline">від 7 днів</span>
+        </div>
+      </div>
+
+      <div class="service-card fade-in">
+        <div class="service-icon">🔗</div>
+        <div class="service-tag">Інтеграції</div>
+        <h3>CRM інтеграція</h3>
+        <p>Всі канали — сайт, Instagram, Telegram, email — в одну систему лідів.</p>
+        <ul class="service-deliverables">
+          <li>Pipeline лідів під ключ</li>
+          <li>Автоматичний запис контактів</li>
+          <li>Сповіщення менеджерам</li>
+        </ul>
+        <div class="service-price">
+          <span class="price-main">₴16,000</span>
+          <span class="price-alt">/ $400</span>
+          <span class="price-timeline">від 10 днів</span>
+        </div>
+      </div>
+
+      <div class="service-card fade-in">
+        <div class="service-icon">🧠</div>
+        <div class="service-tag">AI агенти</div>
+        <h3>AI-асистент для бізнесу</h3>
+        <p>Кастомний агент відповідає клієнтам, аналізує дані і готує звіти замість тебе.</p>
+        <ul class="service-deliverables">
+          <li>Навчений на матеріалах бізнесу</li>
+          <li>Інтеграція в Telegram або сайт</li>
+          <li>Місяць підтримки включено</li>
+        </ul>
+        <div class="service-price">
+          <span class="price-main">₴40,000</span>
+          <span class="price-alt">/ $1,000</span>
+          <span class="price-timeline">від 21 дня</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section id="process">
+  <div class="container">
+    <span class="label fade-in">Як це працює</span>
+    <h2 class="fade-in">Від ідеї до результату<br>за 3 кроки</h2>
+    <p class="subtitle fade-in">Без зайвих зустрічей і довгих обговорень — тільки результат.</p>
+
+    <div class="steps">
+      <div class="step fade-in">
+        <div class="step-num">1</div>
+        <h3>Розбираємо задачу</h3>
+        <p>Пишеш в Telegram — за 24 години отримуєш план і точну ціну. Безкоштовно.</p>
+      </div>
+      <div class="step fade-in">
+        <div class="step-num">2</div>
+        <h3>Будую рішення</h3>
+        <p>Розробка під ключ з регулярними оновленнями. Ти бачиш прогрес кожен день.</p>
+      </div>
+      <div class="step fade-in">
+        <div class="step-num">3</div>
+        <h3>Запуск і підтримка</h3>
+        <p>Здаю готове, показую як користуватись. Тиждень безкоштовної підтримки після запуску.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESULTS -->
+<section id="results">
+  <div class="container">
+    <span class="label fade-in">Кейси</span>
+    <h2 class="fade-in">Реальні результати</h2>
+    <p class="subtitle fade-in">До і після — конкретні цифри, конкретний бізнес.</p>
+
+    <div class="results-grid">
+      <div class="result-card fade-in">
+        <span class="result-badge">Краса-студія</span>
+        <h3>Telegram-бот для запису клієнтів</h3>
+        <div class="before-after">
+          <div class="ba-block">
+            <div class="ba-label before">До</div>
+            <div class="ba-text">Адміністратор витрачав 3 год/день на обробку записів в Instagram і Viber</div>
+          </div>
+          <div class="ba-block">
+            <div class="ba-label after">Після</div>
+            <div class="ba-text">Бот приймає записи 24/7, нагадує клієнтам, звільнив 20 год/тиждень</div>
+          </div>
+        </div>
+        <div class="result-metric">−20 год</div>
+        <div class="result-metric-label">рутини на тиждень</div>
+      </div>
+
+      <div class="result-card fade-in">
+        <span class="result-badge">Інтернет-магазин</span>
+        <h3>Автоматизація обробки замовлень</h3>
+        <div class="before-after">
+          <div class="ba-block">
+            <div class="ba-label before">До</div>
+            <div class="ba-text">Вручну переносили замовлення з сайту в таблицю і відправляли SMS клієнтам</div>
+          </div>
+          <div class="ba-block">
+            <div class="ba-label after">Після</div>
+            <div class="ba-text">Make.com автоматично записує замовлення, відправляє Telegram-сповіщення і оновлює статус</div>
+          </div>
+        </div>
+        <div class="result-metric">0 хвилин</div>
+        <div class="result-metric-label">ручної роботи на замовлення</div>
+      </div>
+
+      <div class="result-card fade-in">
+        <span class="result-badge">Фітнес-клуб</span>
+        <h3>AI-бот для відповідей клієнтам</h3>
+        <div class="before-after">
+          <div class="ba-block">
+            <div class="ba-label before">До</div>
+            <div class="ba-text">Менеджер відповідав на 50+ однакових питань в день про ціни, розклад, акції</div>
+          </div>
+          <div class="ba-block">
+            <div class="ba-label after">Після</div>
+            <div class="ba-text">AI-бот відповідає на 80% питань миттєво, менеджер фокусується на продажах</div>
+          </div>
+        </div>
+        <div class="result-metric">×3</div>
+        <div class="result-metric-label">більше часу на продажі</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing">
+  <div class="container">
+    <span class="label fade-in">Ціни</span>
+    <h2 class="fade-in">Прозорі умови</h2>
+    <p class="subtitle fade-in">Фіксована ціна, без прихованих доплат. Оплата після здачі або 50/50.</p>
+
+    <div class="pricing-grid">
+      <div class="pricing-card fade-in">
+        <div class="pricing-name">Старт</div>
+        <div class="pricing-price"><span class="currency">₴</span>8,000</div>
+        <div class="pricing-usd">або $200</div>
+        <div class="pricing-timeline">⏱ 5 робочих днів</div>
+        <div class="pricing-divider"></div>
+        <ul class="pricing-features">
+          <li>Telegram бот з основним функціоналом</li>
+          <li>Прийом замовлень або запис клієнтів</li>
+          <li>Автовідповіді на FAQ</li>
+          <li>Сповіщення адміну</li>
+          <li>Тиждень безкоштовної підтримки</li>
+        </ul>
+        <a href="https://t.me/avramenko_a_m" target="_blank" class="btn-card btn-card-outline">Обговорити →</a>
+      </div>
+
+      <div class="pricing-card popular fade-in">
+        <span class="popular-badge">Популярне</span>
+        <div class="pricing-name">Бізнес</div>
+        <div class="pricing-price"><span class="currency">₴</span>12,000</div>
+        <div class="pricing-usd">або $300</div>
+        <div class="pricing-timeline">⏱ 7 робочих днів</div>
+        <div class="pricing-divider"></div>
+        <ul class="pricing-features">
+          <li>Автоматизація одного процесу</li>
+          <li>Make.com або Python-скрипт</li>
+          <li>Інтеграція з Google Sheets / Notion</li>
+          <li>Тестування і документація</li>
+          <li>2 тижні безкоштовної підтримки</li>
+        </ul>
+        <a href="https://t.me/avramenko_a_m" target="_blank" class="btn-card btn-card-accent">Замовити →</a>
+      </div>
+
+      <div class="pricing-card fade-in">
+        <div class="pricing-name">AI</div>
+        <div class="pricing-price"><span class="currency">₴</span>40,000</div>
+        <div class="pricing-usd">або $1,000</div>
+        <div class="pricing-timeline">⏱ 21 робочий день</div>
+        <div class="pricing-divider"></div>
+        <ul class="pricing-features">
+          <li>Кастомний AI-агент під бізнес</li>
+          <li>Навчений на твоїх матеріалах</li>
+          <li>Інтеграція в Telegram або сайт</li>
+          <li>Панель управління і аналітика</li>
+          <li>Місяць підтримки включено</li>
+        </ul>
+        <a href="https://t.me/avramenko_a_m" target="_blank" class="btn-card btn-card-outline">Обговорити →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="container">
+    <span class="label fade-in">FAQ</span>
+    <h2 class="fade-in">Часті питання</h2>
+
+    <div class="faq-list">
+      <div class="faq-item fade-in">
+        <div class="faq-q">Як відбувається оплата?</div>
+        <div class="faq-a">50% передоплата перед стартом, 50% після здачі проєкту. Для невеликих проєктів (до ₴10,000) — оплата після здачі. Приймаю на карту Monobank або PayPal.</div>
+      </div>
+      <div class="faq-item fade-in">
+        <div class="faq-q">Що якщо мені потрібно щось нестандартне?</div>
+        <div class="faq-a">Напиши в Telegram — опишу рішення і дам точну ціну протягом 24 годин. Майже будь-яку задачу автоматизації можна вирішити.</div>
+      </div>
+      <div class="faq-item fade-in">
+        <div class="faq-q">Чи є підтримка після здачі проєкту?</div>
+        <div class="faq-a">Так. Тиждень безкоштовної підтримки входить у кожен проєкт. Для постійних клієнтів є абонплата від ₴16,000/місяць.</div>
+      </div>
+      <div class="faq-item fade-in">
+        <div class="faq-q">Ви працюєте з міжнародними клієнтами?</div>
+        <div class="faq-a">Так, спілкуюсь українською та англійською. Оплата — картою або PayPal. Часовий пояс — Київ (UTC+2/+3).</div>
+      </div>
+      <div class="faq-item fade-in">
+        <div class="faq-q">Скільки часу займає розробка?</div>
+        <div class="faq-a">Базовий Telegram-бот — 3–5 днів. Автоматизація — 5–10 днів. AI-агент — 2–3 тижні. Терміни залежать від складності — завжди обговорюємо заздалегідь.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="cta">
+  <div class="container">
+    <div class="cta-box">
+      <span class="label fade-in">Старт</span>
+      <h2 class="fade-in">Готовий автоматизувати<br>твій бізнес?</h2>
+      <p class="fade-in">Напиши в Telegram — безкоштовна консультація і план за 24 години.</p>
+      <a href="https://t.me/avramenko_a_m" target="_blank" class="btn-primary fade-in" style="display:inline-flex;margin:0 auto">
+        Написати в Telegram →
+      </a>
+      <div class="cta-contacts">
+        <a href="https://t.me/avramenko_a_m" target="_blank" class="contact-chip">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.248l-2.04 9.613c-.15.705-.544.877-1.102.545l-3.04-2.24-1.468 1.413c-.162.162-.298.298-.612.298l.218-3.085 5.625-5.08c.245-.217-.053-.338-.38-.12L6.57 14.26l-2.99-.935c-.65-.203-.663-.65.135-.962l11.683-4.505c.542-.196 1.015.132.164.39z"/></svg>
+          @avramenko_a_m
+        </a>
+        <a href="https://www.instagram.com/avram_agency" target="_blank" class="contact-chip">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+          avram_agency
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="logo">AVRAM<span>_</span>agency</div>
+  <p>© 2026 AVRAM_agency · Андрій Авраменко · Україна</p>
+</footer>
+
+<script>
+  // Scroll animations
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+  // FAQ accordion
+  document.querySelectorAll('.faq-q').forEach(q => {
+    q.addEventListener('click', () => {
+      const item = q.parentElement;
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    });
+  });
+</script>
+</body>
+</html>
